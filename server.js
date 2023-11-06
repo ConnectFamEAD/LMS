@@ -7,13 +7,20 @@ const { MONGO_URI } = require("./config/keys");
 require('dotenv').config()
 
 // TODO:middleware
+// Permitir CORS apenas para o domínio do frontend
+const corsOptions = {
+  origin: 'https://connect-fam-ead.vercel.app', // ou a URL do seu frontend
+  credentials: true, // Permite cookies de sessão de resposta cruzada
+  optionsSuccessStatus: 200 // Alguns navegadores antigos (IE11, vários SmartTVs) estrangulam 204
+};
+
+
 
 app.use("/uploads", express.static("uploads"));
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-app.use(cors());
-
+app.use(cors(corsOptions));
 //TODO: Routes
 
 app.use("/auth", require("./routes/authRoute"));
